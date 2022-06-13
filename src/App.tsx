@@ -1,25 +1,45 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import "./App.css";
+import { Main } from "./page/Main";
+import { Login } from "./page/Login";
+import { Register } from "./page/Register";
+import {
+  RecoilRoot,
+  atom,
+  selector,
+  useRecoilState,
+  useRecoilValue,
+} from "recoil";
+import { createGlobalStyle } from "styled-components";
+import { Write } from "./page/Write";
+import { Revise } from "./page/Revise";
+import { Mypage } from "./page/Mypage";
+
+const GlobalStyle = createGlobalStyle`
+*{
+  font-family: 'Hi Melody', cursive;
+}
+body{
+  background: gray;
+}
+`;
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <GlobalStyle />
+      <RecoilRoot>
+        <Routes>
+          <Route path={"/"} element={<Main />} />
+          <Route path={"/login"} element={<Login />} />
+          <Route path={"/register"} element={<Register />} />
+          <Route path={"/write"} element={<Write />} />
+          <Route path={"/revise"} element={<Revise />} />
+          <Route path={"/mypage"} element={<Mypage />} />
+        </Routes>
+      </RecoilRoot>
+    </BrowserRouter>
   );
 }
 
