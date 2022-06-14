@@ -1,12 +1,28 @@
-import React, { Component } from "react";
+import React, { Component, useRef } from "react";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import InputWord from "../components/InputBox";
+import { SignupButton } from "./Register";
 
 export function Login() {
-  const [userId, setUserId] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
+  const {
+    register,
+    watch,
+    formState: { errors },
+    handleSubmit,
+  } = useForm();
+  console.log(watch("email"));
+  const password = useRef();
+  password.current = watch("password");
+
+  const onSubmit = (data: any) => {
+    console.log("data", data);
+    nav("/");
+
+    // axios.post('/', data)
+  };
   const nav = useNavigate();
   const HomeClick = () => {
     nav("/");
@@ -26,18 +42,45 @@ export function Login() {
       </Between>
       <Loginh1>로그인</Loginh1>
       <InputBox>
-        <InputWord
-          text={"아이디"}
-          type={"text"}
-          setWord={setUserId}
-        ></InputWord>
-        <InputWord
-          text={"비밀번호"}
-          type={"password"}
-          setWord={setPassword}
-        ></InputWord>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <div>
+            <Label>Email</Label>
+          </div>
+          <InputStyleSingup
+            type="email"
+            {...register("email", {
+              required: true,
+              pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+            })}
+          />
+          {errors.email && errors.email.type === "pattern" && (
+            <P>이메일 형식이 맞지 않아요!</P>
+          )}
+          {errors.email && errors.email.type === "required" && (
+            <P>email을 입력해주세요.</P>
+          )}
+          <div>
+            <Label>Password</Label>
+          </div>
+          <InputStyleSingup
+            type="password"
+            {...register("password", {
+              required: true,
+              minLength: 6,
+            })}
+          />
+          {errors.password && errors.password.type === "required" && (
+            <P>password을 입력해주세요.</P>
+          )}
+          {errors.password && errors.password.type === "minLength" && (
+            <P>password는 6글자를 넘겨야 합니다.</P>
+          )}
+
+          <div>
+            <SignupButton type="submit" />
+          </div>
+        </form>
       </InputBox>
-      <SignInButton onClick={SignInClick}>로그인</SignInButton>
     </BigBackGround>
   );
 }
@@ -73,15 +116,23 @@ export const Loginh1 = styled.h1`
 `;
 export const InputBox = styled.div``;
 
-export const SignInButton = styled.button`
-  width: 200px;
-  height: 50px;
-  border-radius: 20px;
-  font-size: 30px;
+export const Label = styled.label`
+  color: black;
   font-weight: bold;
-  margin-top: 20px;
-  cursor: pointer;
-  &:hover {
-    background: gray;
-  }
+  font-size: 20px;
+`;
+const InputStyleSingup = styled.input`
+  width: 400px;
+  height: 40px;
+  border-radius: 20px;
+  font-size: 20px;
+  padding-left: 10px;
+  box-sizing: border-box;
+  margin-bottom: 10px;
+`;
+
+const P = styled.p`
+  color: white;
+  font-size: 20px;
+  margin-top: 2px;
 `;

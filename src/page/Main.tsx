@@ -5,17 +5,8 @@ import { useNavigate } from "react-router-dom";
 import PostBox from "../components/PostBox";
 import axios from "axios";
 import { useQuery } from "react-query";
-const postUser = async () => {
-  const res = await axios.get("http://localhost:3000/db.json");
-  return res.data;
-};
-export function Main() {
-  const post_query = useQuery("post_list", postUser, {
-    onSuccess: (data) => {
-      console.log("성공했나?", data);
-    },
-  });
 
+export function Main() {
   const [mouse, setMouse] = useState<boolean>(false);
   const nav = useNavigate();
   const move = () => {

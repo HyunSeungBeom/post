@@ -4,7 +4,7 @@ import styled from "styled-components";
 
 export default function ImageFile({ text }: { text: string }) {
   const [images, setImages] = React.useState([]);
-  const maxNumber = 3;
+  const maxNumber = 1;
 
   const onChange = (imageList: any, addUpdateIndex: any) => {
     // data for submit
@@ -34,19 +34,21 @@ export default function ImageFile({ text }: { text: string }) {
               {text}
             </MainButton>
 
-            {imageList.map((image, index) => (
-              <div key={index} className="image-item">
-                <img src={image["data_url"]} alt="" width="200" />
-                <div className="image-item__btn-wrapper">
-                  <MainButton onClick={() => onImageUpdate(index)}>
-                    바꾸기
-                  </MainButton>
-                  <MainButton onClick={() => onImageRemove(index)}>
-                    제거하기
-                  </MainButton>
+            {imageList.map((image, index) => {
+              return (
+                <div key={index} className="image-item">
+                  <img src={image["data_url"]} alt="" width="200" />
+                  <div className="image-item__btn-wrapper">
+                    <MainButton onClick={() => onImageUpdate(index)}>
+                      바꾸기
+                    </MainButton>
+                    <MainButton onClick={() => onImageRemove(index)}>
+                      제거하기
+                    </MainButton>
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         )}
       </ImageUploading>
