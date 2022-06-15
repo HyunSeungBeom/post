@@ -1,9 +1,10 @@
+import axios from "axios";
 import React, { Component, useRef } from "react";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { FieldValues, useForm } from "react-hook-form";
+import { useMutation } from "react-query";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import InputWord from "../components/InputBox";
+import callApi from "../Api/callApi";
 import { SignupButton } from "./Register";
 
 export function Login() {
@@ -17,12 +18,19 @@ export function Login() {
   const password = useRef();
   password.current = watch("password");
 
-  const onSubmit = (data: any) => {
-    console.log("data", data);
-    nav("/");
-
-    // axios.post('/', data)
+  const onSubmit = (data: FieldValues) => {
+    loginMutation.mutate(data);
   };
+  const loginMutation = useMutation(
+    (data: FieldValues) => callApi.post("/login", data),
+    {
+      onSuccess: (token) => {
+        console.log(token);
+        localStorage.setItem("token", token.data);
+        nav("/");
+      },
+    }
+  );
   const nav = useNavigate();
   const HomeClick = () => {
     nav("/");
@@ -75,8 +83,7 @@ export function Login() {
           {errors.password && errors.password.type === "minLength" && (
             <P>password는 6글자를 넘겨야 합니다.</P>
           )}
-
-          <div>
+          <div style={{ textAlign: "center" }}>
             <SignupButton type="submit" />
           </div>
         </form>

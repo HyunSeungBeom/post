@@ -1,6 +1,7 @@
 import { useRef } from "react";
 import styled from "styled-components";
 import React, { Component } from "react";
+import useForm from "react-hook-form";
 
 export default function InputWord({
   setWord,

@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import ImageFile from "../components/ImageFile";
+
 import InputWord from "../components/InputBox";
 
 export function Mypage() {
@@ -22,7 +22,6 @@ export function Mypage() {
       </UpperMenu>
       <MypageBox>
         <Mypageh1>회원정보 수정</Mypageh1>
-        <ImageFile text={"프로필 선택"} />
         <InputWord
           text={"닉네임"}
           type={"text"}

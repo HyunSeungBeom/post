@@ -2,7 +2,10 @@ import { useCallback, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import React, { Component } from "react";
-import { useForm } from "react-hook-form";
+import { FieldValues, useForm } from "react-hook-form";
+import { QueryClient, useMutation, useQueryClient } from "react-query";
+import axios from "axios";
+import callApi from "../Api/callApi";
 
 export function Register() {
   const {
@@ -15,12 +18,18 @@ export function Register() {
   const password = useRef();
   password.current = watch("password");
 
-  const onSubmit = (data: any) => {
-    console.log("data", data);
-    nav("/Login");
-
-    // axios.post('/', data)
+  const onSubmit = (data: FieldValues) => {
+    signUpuserdata.mutate(data);
   };
+
+  const signUpuserdata = useMutation(
+    (data: FieldValues) => callApi.post("/register", data),
+    {
+      onSuccess: () => {
+        nav("/Login");
+      },
+    }
+  );
 
   const nav = useNavigate();
   const HomeClick = () => {
@@ -54,17 +63,21 @@ export function Register() {
             <Label>NickName</Label>
           </div>
           <InputStyleSingup
-            type="name"
-            {...register("name", {
+            type="nickname"
+            {...register("nickname", {
               required: true,
-              maxLength: 8,
+              maxLength: 7,
+              pattern: /^[A-za-z]/g,
             })}
           />
-          {errors.name && errors.name.type === "required" && (
-            <P>nickname을 입력해주세요.</P>
+          {errors.nickname && errors.nickname.type === "required" && (
+            <P>nickname을 입력해주세요!</P>
           )}
-          {errors.name && errors.name.type === "maxLength" && (
-            <P>nickname 8글자 넘지 않도록 해주세요.</P>
+          {errors.nickname && errors.nickname.type === "maxLength" && (
+            <P>7글자 넘지 않도록 해주세요!</P>
+          )}
+          {errors.nickname && errors.nickname.type === "pattern" && (
+            <P>nickname은 영어로 써주세요!</P>
           )}
           <div>
             <Label>Password</Label>
@@ -100,7 +113,7 @@ export function Register() {
             errors.password_confirm.type === "validate" && (
               <P>이 패스워드는 일치하지 않아요!</P>
             )}
-          <div>
+          <div style={{ textAlign: "center" }}>
             <SignupButton type="submit" />
           </div>
         </form>

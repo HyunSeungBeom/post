@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom";
 import PostBox from "../components/PostBox";
 import axios from "axios";
 import { useQuery } from "react-query";
+import PostBox2 from "../components/PostBox2";
+import PostBox3 from "../components/PostBox3";
 
 export function Main() {
   const [mouse, setMouse] = useState<boolean>(false);
@@ -33,8 +35,8 @@ export function Main() {
           </SideMenu>
         </UpperMenu>
         <PostBox />
-        <PostBox />
-        <PostBox />
+        <PostBox2 />
+        <PostBox3 />
       </BigBackGround>
       <ButtonPlus>
         <FaPlusCircle

@@ -13,6 +13,7 @@
     "@types/react-dom": "^18.0.5",
     "antd": "^4.21.0",
     "axios": "^0.27.2",
+    "json-server": "^0.17.0",
     "next": "^12.1.6",
     "react": "^18.1.0",
     "react-bootstrap": "^2.4.0",
@@ -25,6 +26,7 @@
     "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.1",
     "recoil": "^0.7.3",
+    "recoil-persist": "^4.2.0",
     "route": "^0.2.5",
     "scss": "^0.2.4",
     "styled-components": "^5.3.5",
@@ -62,5 +64,8 @@
     "@typescript-eslint/parser": "^5.27.1",
     "eslint": "^8.17.0",
     "eslint-plugin-react": "^7.30.0"
-  }
+  },
+  "main": "index.js",
+  "author": "seungbeom <ghfk100@naver.com>",
+  "license": "MIT"
 }

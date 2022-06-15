@@ -12,7 +12,7 @@ import axios from "axios";
 //   return res.data;
 // };
 
-export default function PostBox() {
+export default function PostBox3() {
   //   const post_query = useQuery("post_list", postUser, {
   //     onSuccess: (data) => {
   //       console.log("성공했나?", data);
@@ -36,13 +36,13 @@ export default function PostBox() {
         </UpperPostRight>
       </UpperPost>
       <ImageBox>
+        <Comment>
+          짱구와 흰둥이가 즐겁게 놀고있어용!!!!짱구와 흰둥이가 즐겁게
+          놀고있어용!!!!짱구와 흰둥이가 즐겁게 놀고있어용!!!!짱구와 흰둥이가
+          즐겁게 놀고있어용!!!!짱구
+        </Comment>
         <ImagePicker />
       </ImageBox>
-      <Comment>
-        짱구와 흰둥이가 즐겁게 놀고있어용!!!!짱구와 흰둥이가 즐겁게
-        놀고있어용!!!!짱구와 흰둥이가 즐겁게 놀고있어용!!!!짱구와 흰둥이가
-        즐겁게 놀고있어용!!!!짱구
-      </Comment>
       <BottomMenu>
         <LikeCount>좋아요 10k</LikeCount>
         <FaRegHeart size="30px" color="#eb4b58" />
@@ -93,24 +93,25 @@ export const ReviseButton = styled.button`
 `;
 
 export const ImageBox = styled.div`
-  margin-top: 15px;
-  width: 90%;
-  height: 100%;
-  margin-left: auto;
-  margin-right: auto;
-  border-radius: 20px;
+  margin-top: 10px;
+  width: 100%;
+  height: 50%;
+
   overflow: hidden;
-  justify-content: center;
-  align-items: center;
+  justify-content: space-between;
   display: flex;
 `;
 
 export const Comment = styled.div`
+  width: 100%;
+  height: 50%;
+  display: flex;
+  margin-left: 10px;
   margin-top: 10px;
   font-size: 25px;
   color: black;
-  margin-left: 10px;
-  margin-right: 10px;
+
+  overflow: hidden;
 `;
 
 export const BottomMenu = styled.div`

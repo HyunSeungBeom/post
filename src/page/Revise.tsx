@@ -1,9 +1,11 @@
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import ImageFile from "../components/ImageFile";
+
 import React, { useState } from "react";
+import { ImgSource } from "../components/ImgSource";
 
 export function Revise() {
+  const [imagePreview, setImagePreview] = useState("");
   const nav = useNavigate();
   const HomeClick = () => {
     nav("/");
@@ -26,7 +28,7 @@ export function Revise() {
       <WirteBox>
         <Writeh1>게시글 수정</Writeh1>
         <Uploadfile>
-          <ImageFile text={"이미지 수정"} />
+          <ImgSource set={setImagePreview} />
           <WriteBox>
             <Writestrong>게시글내용</Writestrong>
             <Writetext placeholder="게시글 내용을 수정해주세요."></Writetext>

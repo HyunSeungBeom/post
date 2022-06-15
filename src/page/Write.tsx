@@ -1,9 +1,33 @@
 import styled from "styled-components";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import ImageFile from "../components/ImageFile";
+import axios from "axios";
+import { useForm } from "react-hook-form";
+import RadioButton from "../components/RadioButton";
+import { ImgSource } from "../components/ImgSource";
 
 export function Write() {
+  const [selectedDrink, setSelectedDrink] = useState<string>();
+  const [imagePreview, setImagePreview] = useState("");
+  const { watch, register } = useForm();
+  const image = watch("image");
+
+  useEffect(() => {
+    if (image && image.length > 0) {
+      const file = image[0];
+      setImagePreview(URL.createObjectURL(file));
+    }
+  }, [image]);
+
+  const onSubmit = (data: any) => {
+    console.log(image);
+
+    // axios.post('/', data)
+  };
+
+  console.log(selectedDrink);
+  console.log(image);
+
   const nav = useNavigate();
   const HomeClick = () => {
     nav("/");
@@ -14,6 +38,7 @@ export function Write() {
   const Mypage = () => {
     nav("/mypage");
   };
+
   return (
     <BigBackGround>
       <UpperMenu>
@@ -26,12 +51,14 @@ export function Write() {
       <WirteBox>
         <Writeh1>게시글 작성</Writeh1>
         <Uploadfile>
-          <ImageFile text={"이미지 선택"} />
-
+          <LayoutBox>
+            <RadioButton set={setSelectedDrink} />
+            <ImgSource set={setImagePreview} />
+          </LayoutBox>
           <WriteBox>
             <Writestrong>게시글내용</Writestrong>
             <Writetext placeholder="게시글 내용을 작성해주세요."></Writetext>
-            <WriteButton onClick={HomeClick}>게시글 작성</WriteButton>
+            <WriteButton>게시글 작성</WriteButton>
           </WriteBox>
         </Uploadfile>
       </WirteBox>
@@ -94,9 +121,11 @@ export const Writeh1 = styled.div`
 `;
 
 export const Uploadfile = styled.div`
+  padding-right: auto;
+  padding-left: auto;
+  align-items: center;
   margin-top: 20px;
   width: 60%;
-  margin-left: 20px;
 `;
 
 export const UploadInput = styled.input`
@@ -145,4 +174,10 @@ export const WriteButton = styled.button`
   &:hover {
     background: gray;
   }
+`;
+
+export const LayoutBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
