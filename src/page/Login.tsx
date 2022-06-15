@@ -4,7 +4,7 @@ import { FieldValues, useForm } from "react-hook-form";
 import { useMutation } from "react-query";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import callApi from "../Api/callApi";
+import { registerApi } from "../Api/callApi";
 import { SignupButton } from "./Register";
 
 export function Login() {
@@ -22,7 +22,7 @@ export function Login() {
     loginMutation.mutate(data);
   };
   const loginMutation = useMutation(
-    (data: FieldValues) => callApi.post("/login", data),
+    (data: FieldValues) => registerApi.singInApi(data),
     {
       onSuccess: (token) => {
         console.log(token);
@@ -37,9 +37,6 @@ export function Login() {
   };
   const SignupClick = () => {
     nav("/register");
-  };
-  const SignInClick = () => {
-    nav("/");
   };
 
   return (

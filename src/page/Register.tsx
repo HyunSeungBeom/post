@@ -4,8 +4,7 @@ import styled from "styled-components";
 import React, { Component } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import { QueryClient, useMutation, useQueryClient } from "react-query";
-import axios from "axios";
-import callApi from "../Api/callApi";
+import { registerApi } from "../Api/callApi";
 
 export function Register() {
   const {
@@ -23,7 +22,7 @@ export function Register() {
   };
 
   const signUpuserdata = useMutation(
-    (data: FieldValues) => callApi.post("/register", data),
+    (data: FieldValues) => registerApi.singUpApi(data),
     {
       onSuccess: () => {
         nav("/Login");
