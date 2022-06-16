@@ -20,6 +20,7 @@ export function Main() {
 
   const Logout = () => {
     nav("/login");
+    localStorage.clear();
   };
   const Mypage = () => {
     nav("/mypage");

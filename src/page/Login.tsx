@@ -3,11 +3,15 @@ import React, { Component, useRef } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import { useMutation } from "react-query";
 import { useNavigate } from "react-router-dom";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import styled from "styled-components";
 import { registerApi } from "../Api/callApi";
+import { tokenState } from "../recoil/store";
 import { SignupButton } from "./Register";
 
 export function Login() {
+  const loginToken = useSetRecoilState(tokenState);
+  const tokenUse = useRecoilValue(tokenState);
   const {
     register,
     watch,
@@ -25,8 +29,8 @@ export function Login() {
     (data: FieldValues) => registerApi.singInApi(data),
     {
       onSuccess: (token) => {
-        console.log(token);
-        localStorage.setItem("token", token.data);
+        console.log(token.data);
+        loginToken(token.data);
         nav("/");
       },
     }

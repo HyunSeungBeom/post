@@ -7,7 +7,7 @@ const RadioButton = ({
   set: React.Dispatch<React.SetStateAction<string | undefined>>;
 }) => {
   const radioHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(event.target.value);
+    // console.log(event.target.value);
     set(event.target.value);
   };
 

@@ -4,25 +4,20 @@ import { useForm } from "react-hook-form";
 export function ImgSource({
   set,
 }: {
-  set: React.Dispatch<React.SetStateAction<string>>;
+  set: React.Dispatch<React.SetStateAction<File | undefined>>;
 }) {
   const [imagePreview, setImagePreview] = useState("");
   const { watch, register } = useForm();
-
   const image = watch("image");
 
   useEffect(() => {
     if (image && image.length > 0) {
       const file = image[0];
       setImagePreview(URL.createObjectURL(file));
+      set(file);
     }
   }, [image]);
 
-  const onSubmit = (data: any) => {
-    console.log(image);
-
-    // axios.post('/', data)
-  };
   return (
     <div style={{ marginTop: "10px" }}>
       <legend style={{ fontWeight: "bold", color: "red", fontSize: "30px" }}>

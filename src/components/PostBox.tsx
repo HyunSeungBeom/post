@@ -5,19 +5,14 @@ import { IdImage } from "../page/Main";
 import React from "react";
 import ImagePicker from "./ImagePicker";
 import { useQuery } from "react-query";
-import axios from "axios";
-
-// const postUser = async () => {
-//   const res = await axios.get("http://localhost:3000/db.json");
-//   return res.data;
-// };
+import { boardApi } from "../Api/callApi";
 
 export default function PostBox() {
-  //   const post_query = useQuery("post_list", postUser, {
-  //     onSuccess: (data) => {
-  //       console.log("성공했나?", data);
-  //     },
-  //   });
+  const postbox_query = useQuery(["board_list"], () => boardApi.watchApi(), {
+    onSuccess: (data) => {
+      console.log("success", data);
+    },
+  });
   const nav = useNavigate();
   const ReviseButtonClick = () => {
     nav("/revise");

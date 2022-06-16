@@ -5,7 +5,7 @@ import React, { useState } from "react";
 import { ImgSource } from "../components/ImgSource";
 
 export function Revise() {
-  const [imagePreview, setImagePreview] = useState("");
+  const [imagePreview, setImagePreview] = useState<File>();
   const nav = useNavigate();
   const HomeClick = () => {
     nav("/");

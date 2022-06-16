@@ -1,32 +1,46 @@
 import styled from "styled-components";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { useForm } from "react-hook-form";
+import { FieldValues, useForm } from "react-hook-form";
 import RadioButton from "../components/RadioButton";
 import { ImgSource } from "../components/ImgSource";
+import { useMutation } from "react-query";
+import { boardApi } from "../Api/callApi";
+import { tokenState } from "../recoil/store";
+import { useRecoilState, useRecoilValue } from "recoil";
 
 export function Write() {
-  const [selectedDrink, setSelectedDrink] = useState<string>();
-  const [imagePreview, setImagePreview] = useState("");
-  const { watch, register } = useForm();
-  const image = watch("image");
+  const [selectedButton, setSelectedButton] = useState<string>();
+  const [content, setContent] = useState<string>("");
+  const [imagePreview, setImagePreview] = useState<File>();
+  const tokenUse = useRecoilValue(tokenState);
 
-  useEffect(() => {
-    if (image && image.length > 0) {
-      const file = image[0];
-      setImagePreview(URL.createObjectURL(file));
+  const onSubmit = () => {
+    // console.log(imagePreview);
+    // console.log(selectedButton);
+    // console.log(content);
+    const formData = new FormData();
+    if (imagePreview && selectedButton) {
+      formData.append("image", imagePreview);
+      formData.append("layout", selectedButton);
+      formData.append("content", content);
     }
-  }, [image]);
-
-  const onSubmit = (data: any) => {
-    console.log(image);
-
-    // axios.post('/', data)
+    // console.log(formData.get("image"));
+    // console.log(formData.get("layout"));
+    // console.log(formData.get("content"));
+    console.log(tokenUse);
+    writeUserdata.mutate(formData);
   };
 
-  console.log(selectedDrink);
-  console.log(image);
+  const writeUserdata = useMutation(
+    (data: FormData) => boardApi.writeApi(data, tokenUse),
+    {
+      onSuccess: () => {
+        nav("/");
+      },
+    }
+  );
 
   const nav = useNavigate();
   const HomeClick = () => {
@@ -52,13 +66,18 @@ export function Write() {
         <Writeh1>게시글 작성</Writeh1>
         <Uploadfile>
           <LayoutBox>
-            <RadioButton set={setSelectedDrink} />
+            <RadioButton set={setSelectedButton} />
             <ImgSource set={setImagePreview} />
           </LayoutBox>
           <WriteBox>
             <Writestrong>게시글내용</Writestrong>
-            <Writetext placeholder="게시글 내용을 작성해주세요."></Writetext>
-            <WriteButton>게시글 작성</WriteButton>
+            <Writetext
+              placeholder="게시글 내용을 작성해주세요."
+              onChange={(e) => {
+                setContent(e.target.value);
+              }}
+            ></Writetext>
+            <WriteButton onClick={onSubmit}>게시글 작성</WriteButton>
           </WriteBox>
         </Uploadfile>
       </WirteBox>
