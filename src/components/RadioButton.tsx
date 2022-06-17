@@ -38,7 +38,7 @@ const RadioButton = ({
           />
           <label htmlFor="button2">레이아웃 2</label>
 
-          <Imgsize src="Img\레이아웃2.PNG"></Imgsize>
+          <Imgsize src="Img\레이아웃3.PNG"></Imgsize>
         </p>
 
         <p>
@@ -51,7 +51,7 @@ const RadioButton = ({
           />
           <label htmlFor="button3">레이아웃 3</label>
 
-          <Imgsize src="Img\레이아웃3.PNG"></Imgsize>
+          <Imgsize src="Img\레이아웃2.PNG"></Imgsize>
         </p>
       </fieldset>
     </div>

@@ -7,6 +7,7 @@ export interface IBoaderList {
   createdAt: string;
   updatedAt: string;
   likes: Array<Likes>;
+  userEmail: string;
 }
 
 interface Likes {

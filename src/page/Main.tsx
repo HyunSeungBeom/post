@@ -5,8 +5,6 @@ import { useNavigate } from "react-router-dom";
 import PostBox from "../components/PostBox";
 import axios from "axios";
 import { useQuery } from "react-query";
-import PostBox2 from "../components/PostBox2";
-import PostBox3 from "../components/PostBox3";
 import { boardApi } from "../Api/callApi";
 import { IBoaderList } from "../Types/Interface";
 import { jwtUtils } from "../utils/JwtUtils";
@@ -63,11 +61,14 @@ export function Main() {
         </UpperMenu>
         {postbox_query.isSuccess &&
           postbox_query.data.data.map((board: IBoaderList) => {
-            if (board.layout == 1)
-              return <PostBox key={board.board_id} board={board} />;
-            else if (board.layout == 2)
-              return <PostBox2 key={board.board_id} board={board} />;
-            else return <PostBox3 key={board.board_id} board={board} />;
+            return (
+              <PostBox
+                key={board.board_id}
+                boardId={board.board_id}
+                board={board}
+                layoutnumber={board.layout}
+              />
+            );
           })}
       </BigBackGround>
       <ButtonPlus>

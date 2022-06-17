@@ -38,8 +38,8 @@ const watchApi = async () => {
   return wca;
 };
 
-const deleteApi = async () => {
-  const da = await callApi.delete("/board/{boardId}", {});
+const deleteApi = async (boardId: number) => {
+  const da = await callApi.delete(`/board/${boardId}`);
   return da;
 };
 
@@ -51,5 +51,5 @@ export const registerApi = {
 export const boardApi = {
   writeApi: (data: FormData) => writeApi(data),
   watchApi: () => watchApi(),
-  deleteApi: () => deleteApi(),
+  deleteApi: (boardId: number) => deleteApi(boardId),
 };
