@@ -14,7 +14,6 @@ import {
 import { createGlobalStyle } from "styled-components";
 import { Write } from "./page/Write";
 import { Revise } from "./page/Revise";
-import { Mypage } from "./page/Mypage";
 
 const GlobalStyle = createGlobalStyle`
 *{
@@ -36,7 +35,6 @@ function App() {
           <Route path={"/register"} element={<Register />} />
           <Route path={"/write"} element={<Write />} />
           <Route path={"/revise"} element={<Revise />} />
-          <Route path={"/mypage"} element={<Mypage />} />
         </Routes>
       </RecoilRoot>
     </BrowserRouter>

@@ -3,15 +3,29 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { IdImage } from "../page/Main";
 import React from "react";
-import { useQuery } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import { boardApi } from "../Api/callApi";
 import { IBoaderList } from "../Types/Interface";
+import { useRecoilValue } from "recoil";
+import { tokenState } from "../recoil/store";
+import moment from "moment";
+import "moment/locale/ko";
 
 export default function PostBox({ board }: { board: IBoaderList }) {
   const nav = useNavigate();
   const ReviseButtonClick = () => {
     nav("/revise");
   };
+  const nowTime = moment().format("YYYYMMDD HH:mm:ss");
+  const onDelete = () => {
+    deleteUserdata.mutate();
+  };
+
+  const deleteUserdata = useMutation(() => boardApi.deleteApi(), {
+    onSuccess: () => {
+      console.log("삭제가 되나요?");
+    },
+  });
 
   return (
     <PostContainer>
@@ -23,7 +37,7 @@ export default function PostBox({ board }: { board: IBoaderList }) {
         <UpperPostRight>
           <div>{board.createdAt}</div>
           <ReviseButton onClick={ReviseButtonClick}>수정</ReviseButton>
-          <FaTrashAlt />
+          <FaTrashAlt cursor="pointer" onClick={onDelete} />
         </UpperPostRight>
       </UpperPost>
       {board.imageLink && (

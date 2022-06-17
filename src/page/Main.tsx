@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { FaPlusCircle, FaRegHeart } from "react-icons/fa";
-import React, { Component, useState } from "react";
+import React, { Component, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import PostBox from "../components/PostBox";
 import axios from "axios";
@@ -9,6 +9,10 @@ import PostBox2 from "../components/PostBox2";
 import PostBox3 from "../components/PostBox3";
 import { boardApi } from "../Api/callApi";
 import { IBoaderList } from "../Types/Interface";
+import { jwtUtils } from "../utils/JwtUtils";
+import { useRecoilValue } from "recoil";
+import { tokenState } from "../recoil/store";
+import { ToastContainer, toast } from "react-toastify";
 
 export function Main() {
   const postbox_query = useQuery(["board_list"], () => boardApi.watchApi(), {
@@ -17,6 +21,8 @@ export function Main() {
     },
   });
   const [mouse, setMouse] = useState<boolean>(false);
+  const [token, setToken] = useState<boolean>(false);
+  const tokenUse = useRecoilValue(tokenState);
   const nav = useNavigate();
   const move = () => {
     nav("/write");
@@ -24,22 +30,35 @@ export function Main() {
   const HomeButton = () => {
     nav("/");
   };
-
+  const Login = () => {
+    nav("/login");
+  };
   const Logout = () => {
     nav("/login");
     localStorage.clear();
   };
-  const Mypage = () => {
-    nav("/mypage");
+
+  const nologin = () => {
+    alert("로그인을 이용하세요!");
   };
+
+  useEffect(() => {
+    if (jwtUtils.isAuth(tokenUse)) {
+      setToken(true);
+    } else setToken(false);
+  }, [tokenUse]);
+
   return (
     <>
       <BigBackGround>
         <UpperMenu>
           <MainButton onClick={HomeButton}>Home</MainButton>
           <SideMenu>
-            <MainButton onClick={Mypage}>Mypage</MainButton>
-            <MainButton onClick={Logout}>로그아웃</MainButton>
+            {token ? (
+              <MainButton onClick={Logout}>로그아웃</MainButton>
+            ) : (
+              <MainButton onClick={Login}> 로그인</MainButton>
+            )}
           </SideMenu>
         </UpperMenu>
         {postbox_query.isSuccess &&
@@ -54,7 +73,7 @@ export function Main() {
       <ButtonPlus>
         <FaPlusCircle
           size={"80px"}
-          onClick={move}
+          onClick={token ? move : nologin}
           cursor="pointer"
           color={mouse ? "#cecece" : "black"}
           onMouseOver={() => setMouse(true)}

@@ -3,11 +3,15 @@ import React from "react";
 import { FieldValues } from "react-hook-form";
 import { useRecoilValue } from "recoil";
 import { tokenState } from "../recoil/store";
+import { jwtUtils } from "../utils/JwtUtils";
+import setupInterceptorsTo from "./Interceptiors";
 
-const callApi = axios.create({
+const baseApi = axios.create({
   baseURL: "http://3.35.233.99/api",
   timeout: 1000,
 });
+
+const callApi = setupInterceptorsTo(baseApi);
 
 const singUpApi = async (data: FieldValues) => {
   const sua = await callApi.post("/register", data);
@@ -19,11 +23,10 @@ const singInApi = async (data: FieldValues) => {
   return sia;
 };
 
-const writeApi = async (data: FormData, tokenUse: string) => {
+const writeApi = async (data: FormData) => {
   // console.log("aa", tokenUse);
   const wa = await callApi.post("/board", data, {
     headers: {
-      "X-AUTH-TOKEN": tokenUse,
       "content-type": "multipart/form-data",
     },
   });
@@ -31,8 +34,13 @@ const writeApi = async (data: FormData, tokenUse: string) => {
 };
 
 const watchApi = async () => {
-  const bsa = await callApi.get("/boards");
-  return bsa;
+  const wca = await callApi.get("/boards");
+  return wca;
+};
+
+const deleteApi = async () => {
+  const da = await callApi.delete("/board/{boardId}", {});
+  return da;
 };
 
 export const registerApi = {
@@ -41,6 +49,7 @@ export const registerApi = {
 };
 
 export const boardApi = {
-  writeApi: (data: FormData, tokenUse: string) => writeApi(data, tokenUse),
+  writeApi: (data: FormData) => writeApi(data),
   watchApi: () => watchApi(),
+  deleteApi: () => deleteApi(),
 };

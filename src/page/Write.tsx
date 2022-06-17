@@ -9,11 +9,13 @@ import { useMutation } from "react-query";
 import { boardApi } from "../Api/callApi";
 import { tokenState } from "../recoil/store";
 import { useRecoilState, useRecoilValue } from "recoil";
+import { jwtUtils } from "../utils/JwtUtils";
 
 export function Write() {
   const [selectedButton, setSelectedButton] = useState<string>();
   const [content, setContent] = useState<string>("");
   const [imagePreview, setImagePreview] = useState<File>();
+  const [token, setToken] = useState<boolean>(false);
   const tokenUse = useRecoilValue(tokenState);
   const nav = useNavigate();
 
@@ -34,8 +36,14 @@ export function Write() {
     writeUserdata.mutate(formData);
   };
 
+  useEffect(() => {
+    if (jwtUtils.isAuth(tokenUse)) {
+      setToken(true);
+    } else setToken(false);
+  }, [tokenUse]);
+
   const writeUserdata = useMutation(
-    (data: FormData) => boardApi.writeApi(data, tokenUse),
+    (data: FormData) => boardApi.writeApi(data),
     {
       onSuccess: () => {
         nav("/");
@@ -48,9 +56,7 @@ export function Write() {
   };
   const Logout = () => {
     nav("/login");
-  };
-  const Mypage = () => {
-    nav("/mypage");
+    localStorage.clear();
   };
 
   return (
@@ -58,7 +64,6 @@ export function Write() {
       <UpperMenu>
         <MainButton onClick={HomeClick}>Home</MainButton>
         <SideMenu>
-          <MainButton onClick={Mypage}>Mypage</MainButton>
           <MainButton onClick={Logout}>로그아웃</MainButton>
         </SideMenu>
       </UpperMenu>

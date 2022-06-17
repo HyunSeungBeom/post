@@ -13,3 +13,8 @@ interface Likes {
   user_email: string;
   user_nickname: string;
 }
+
+export interface TOkenList {
+  exp: number;
+  sub: string;
+}
