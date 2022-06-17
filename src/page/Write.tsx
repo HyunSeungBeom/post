@@ -15,6 +15,7 @@ export function Write() {
   const [content, setContent] = useState<string>("");
   const [imagePreview, setImagePreview] = useState<File>();
   const tokenUse = useRecoilValue(tokenState);
+  const nav = useNavigate();
 
   const onSubmit = () => {
     // console.log(imagePreview);
@@ -42,7 +43,6 @@ export function Write() {
     }
   );
 
-  const nav = useNavigate();
   const HomeClick = () => {
     nav("/");
   };

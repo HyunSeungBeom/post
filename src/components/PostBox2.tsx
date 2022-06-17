@@ -3,21 +3,12 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { IdImage } from "../page/Main";
 import React from "react";
-import ImagePicker from "./ImagePicker";
+
 import { useQuery } from "react-query";
 import axios from "axios";
+import { IBoaderList } from "../Types/Interface";
 
-// const postUser = async () => {
-//   const res = await axios.get("http://localhost:3000/db.json");
-//   return res.data;
-// };
-
-export default function PostBox2() {
-  //   const post_query = useQuery("post_list", postUser, {
-  //     onSuccess: (data) => {
-  //       console.log("성공했나?", data);
-  //     },
-  //   });
+export default function PostBox2({ board }: { board: IBoaderList }) {
   const nav = useNavigate();
   const ReviseButtonClick = () => {
     nav("/revise");
@@ -27,24 +18,25 @@ export default function PostBox2() {
       <UpperPost>
         <UpperPostLeft>
           <IdImage src="img/짱구.png"></IdImage>
-          <div>seungb</div>
+          <div>{board.userNickname}</div>
         </UpperPostLeft>
         <UpperPostRight>
-          <div>1 days ago</div>
+          <div>{board.createdAt}</div>
           <ReviseButton onClick={ReviseButtonClick}>수정</ReviseButton>
           <FaTrashAlt />
         </UpperPostRight>
       </UpperPost>
-      <ImageBox>
-        <ImagePicker />
-        <Comment>
-          짱구와 흰둥이가 즐겁게 놀고있어용!!!!짱구와 흰둥이가 즐겁게
-          놀고있어용!!!!짱구와 흰둥이가 즐겁게 놀고있어용!!!!짱구와 흰둥이가
-          즐겁게 놀고있어용!!!!짱구
-        </Comment>
-      </ImageBox>
+      {board.imageLink ? (
+        <ImageBox>
+          <Comment>{board.content}</Comment>
+          <ImageSee src={board.imageLink} alt="" />
+        </ImageBox>
+      ) : (
+        <Comment>{board.content}</Comment>
+      )}
+
       <BottomMenu>
-        <LikeCount>좋아요 10k</LikeCount>
+        <LikeCount>좋아요 {board.likes.length}</LikeCount>
         <FaRegHeart size="30px" color="#eb4b58" />
       </BottomMenu>
     </PostContainer>
@@ -124,3 +116,9 @@ export const BottomMenu = styled.div`
   justify-content: space-between;
 `;
 export const LikeCount = styled.div``;
+
+export const ImageSee = styled.img`
+  width: 300px;
+  height: 300px;
+  border-radius: 10px;
+`;

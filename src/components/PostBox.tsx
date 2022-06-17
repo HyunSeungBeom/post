@@ -3,43 +3,38 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { IdImage } from "../page/Main";
 import React from "react";
-import ImagePicker from "./ImagePicker";
 import { useQuery } from "react-query";
 import { boardApi } from "../Api/callApi";
+import { IBoaderList } from "../Types/Interface";
 
-export default function PostBox() {
-  const postbox_query = useQuery(["board_list"], () => boardApi.watchApi(), {
-    onSuccess: (data) => {
-      console.log("success", data);
-    },
-  });
+export default function PostBox({ board }: { board: IBoaderList }) {
   const nav = useNavigate();
   const ReviseButtonClick = () => {
     nav("/revise");
   };
+
   return (
     <PostContainer>
       <UpperPost>
         <UpperPostLeft>
           <IdImage src="img/짱구.png"></IdImage>
-          <div>seungb</div>
+          <div>{board.userNickname}</div>
         </UpperPostLeft>
         <UpperPostRight>
-          <div>1 days ago</div>
+          <div>{board.createdAt}</div>
           <ReviseButton onClick={ReviseButtonClick}>수정</ReviseButton>
           <FaTrashAlt />
         </UpperPostRight>
       </UpperPost>
-      <ImageBox>
-        <ImagePicker />
-      </ImageBox>
-      <Comment>
-        짱구와 흰둥이가 즐겁게 놀고있어용!!!!짱구와 흰둥이가 즐겁게
-        놀고있어용!!!!짱구와 흰둥이가 즐겁게 놀고있어용!!!!짱구와 흰둥이가
-        즐겁게 놀고있어용!!!!짱구
-      </Comment>
+      {board.imageLink && (
+        <ImageBox>
+          <ImageSee src={board.imageLink} alt="" />
+        </ImageBox>
+      )}
+
+      <Comment>{board.content}</Comment>
       <BottomMenu>
-        <LikeCount>좋아요 10k</LikeCount>
+        <LikeCount>좋아요 {board.likes.length}</LikeCount>
         <FaRegHeart size="30px" color="#eb4b58" />
       </BottomMenu>
     </PostContainer>
@@ -118,3 +113,9 @@ export const BottomMenu = styled.div`
   justify-content: space-between;
 `;
 export const LikeCount = styled.div``;
+
+export const ImageSee = styled.img`
+  width: 350px;
+  height: 350px;
+  border-radius: 10px;
+`;

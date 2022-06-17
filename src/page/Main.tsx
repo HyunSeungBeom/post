@@ -7,8 +7,15 @@ import axios from "axios";
 import { useQuery } from "react-query";
 import PostBox2 from "../components/PostBox2";
 import PostBox3 from "../components/PostBox3";
+import { boardApi } from "../Api/callApi";
+import { IBoaderList } from "../Types/Interface";
 
 export function Main() {
+  const postbox_query = useQuery(["board_list"], () => boardApi.watchApi(), {
+    onSuccess: (data) => {
+      console.log("success", data);
+    },
+  });
   const [mouse, setMouse] = useState<boolean>(false);
   const nav = useNavigate();
   const move = () => {
@@ -35,9 +42,14 @@ export function Main() {
             <MainButton onClick={Logout}>로그아웃</MainButton>
           </SideMenu>
         </UpperMenu>
-        <PostBox />
-        <PostBox2 />
-        <PostBox3 />
+        {postbox_query.isSuccess &&
+          postbox_query.data.data.map((board: IBoaderList) => {
+            if (board.layout == 1)
+              return <PostBox key={board.board_id} board={board} />;
+            else if (board.layout == 2)
+              return <PostBox2 key={board.board_id} board={board} />;
+            else return <PostBox3 key={board.board_id} board={board} />;
+          })}
       </BigBackGround>
       <ButtonPlus>
         <FaPlusCircle
