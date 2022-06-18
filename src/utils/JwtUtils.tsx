@@ -7,14 +7,14 @@ export class jwtUtils {
       return false;
     }
     const decoded: TOkenList = jwtDecode(token);
-    console.log(decoded);
+    // console.log(decoded);
     if (decoded.exp > new Date().getTime() / 1000) {
       return true;
     } else {
       return false;
     }
   }
-
+  //
   static getId(token: string) {
     const decoded: TOkenList = jwtDecode(token);
     return decoded.sub;

@@ -12,11 +12,9 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { jwtUtils } from "../utils/JwtUtils";
 
 export function Write() {
-  const [selectedButton, setSelectedButton] = useState<string>();
+  const [selectedButton, setSelectedButton] = useState<number>();
   const [content, setContent] = useState<string>("");
   const [imagePreview, setImagePreview] = useState<File>();
-  const [token, setToken] = useState<boolean>(false);
-  const tokenUse = useRecoilValue(tokenState);
   const nav = useNavigate();
 
   const onSubmit = () => {
@@ -26,21 +24,21 @@ export function Write() {
     const formData = new FormData();
     if (imagePreview && selectedButton) {
       formData.append("image", imagePreview);
-      formData.append("layout", selectedButton);
+      formData.append("layout", selectedButton.toString());
       formData.append("content", content);
     }
     // console.log(formData.get("image"));
     // console.log(formData.get("layout"));
     // console.log(formData.get("content"));
-    console.log(tokenUse);
+    // console.log(tokenUse);
     writeUserdata.mutate(formData);
   };
 
-  useEffect(() => {
-    if (jwtUtils.isAuth(tokenUse)) {
-      setToken(true);
-    } else setToken(false);
-  }, [tokenUse]);
+  // useEffect(() => {
+  //   if (jwtUtils.isAuth(tokenUse)) {
+  //     setToken(true);
+  //   } else setToken(false);
+  // }, [tokenUse]);
 
   const writeUserdata = useMutation(
     (data: FormData) => boardApi.writeApi(data),

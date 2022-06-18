@@ -7,14 +7,14 @@ import {
 import jwtDecode from "jwt-decode";
 
 const onRequest = (config: AxiosRequestConfig): AxiosRequestConfig => {
-  console.info(`[request] [${JSON.stringify(config)}]`);
+  // console.info(`[request] [${JSON.stringify(config)}]`);
 
   const localToken = localStorage.getItem("recoil-persist");
 
   if (localToken) {
     const toto = JSON.parse(localToken);
 
-    console.log(toto.tokenState);
+    // console.log(toto.tokenState);
     if (toto) {
       config.headers = {
         "X-AUTH-TOKEN": toto.tokenState || 0 || false,

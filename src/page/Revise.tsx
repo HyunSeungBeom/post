@@ -1,11 +1,22 @@
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 import React, { useState } from "react";
 import { ImgSource } from "../components/ImgSource";
+import { boardApi } from "../Api/callApi";
+import { IBoaderList } from "../Types/Interface";
+import { useMutation } from "react-query";
+import RadioButton from "../components/RadioButton";
 
 export function Revise() {
+  const { state }: { state: any } = useLocation();
+  const [selectedButton, setSelectedButton] = useState<number>(
+    state.board.layout
+  );
   const [imagePreview, setImagePreview] = useState<File>();
+  const [content2, setContent2] = useState<string>(state.board.content);
+
+  console.log(state);
   const nav = useNavigate();
   const HomeClick = () => {
     nav("/");
@@ -13,26 +24,57 @@ export function Revise() {
   const Logout = () => {
     nav("/login");
   };
-  const Mypage = () => {
-    nav("/mypage");
+  const onSubmit = () => {
+    const formData = new FormData();
+    if (imagePreview && selectedButton) {
+      formData.append("image", imagePreview);
+      formData.append("layout", selectedButton.toString());
+      formData.append("content", content2);
+      // console.log(imagePreview, selectedButton, content2);
+    }
+    updatemutation.mutate(formData);
   };
+
+  const updatemutation = useMutation(
+    (updateformdata: FormData) =>
+      boardApi.reviseApi(state.board.board_id, updateformdata),
+    {
+      onSuccess: () => {
+        nav("/");
+      },
+    }
+  );
+
   return (
     <BigBackGround>
       <UpperMenu>
         <MainButton onClick={HomeClick}>Home</MainButton>
         <SideMenu>
-          <MainButton onClick={Mypage}>Mypage</MainButton>
+          {/* <MainButton onClick={Mypage}>Mypage</MainButton> */}
           <MainButton onClick={Logout}>로그아웃</MainButton>
         </SideMenu>
       </UpperMenu>
       <WirteBox>
         <Writeh1>게시글 수정</Writeh1>
         <Uploadfile>
-          <ImgSource set={setImagePreview} />
+          <LayoutBox>
+            <RadioButton
+              set={setSelectedButton}
+              select={selectedButton}
+              layoutnumber={state.board.layout}
+            />
+            <ImgSource set={setImagePreview} />
+          </LayoutBox>
           <WriteBox>
-            <Writestrong>게시글내용</Writestrong>
-            <Writetext placeholder="게시글 내용을 수정해주세요."></Writetext>
-            <WriteButton onClick={HomeClick}>게시글 수정</WriteButton>
+            <Writestrong>게시글 수정 내용</Writestrong>
+            <Writetext
+              placeholder="게시글 내용을 수정해주세요."
+              onChange={(e) => {
+                setContent2(e.target.value);
+              }}
+              value={content2}
+            ></Writetext>
+            <WriteButton onClick={onSubmit}>게시글 수정</WriteButton>
           </WriteBox>
         </Uploadfile>
       </WirteBox>
@@ -145,4 +187,10 @@ export const WriteButton = styled.button`
   &:hover {
     background: gray;
   }
+`;
+
+export const LayoutBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;

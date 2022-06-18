@@ -5,6 +5,7 @@ import React, { Component } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import { QueryClient, useMutation, useQueryClient } from "react-query";
 import { registerApi } from "../Api/callApi";
+import { tokenState } from "../recoil/store";
 
 export function Register() {
   const {
@@ -19,6 +20,8 @@ export function Register() {
 
   const onSubmit = (data: FieldValues) => {
     signUpuserdata.mutate(data);
+    // console.log(data);
+    console.log(tokenState);
   };
 
   const signUpuserdata = useMutation(

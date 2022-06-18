@@ -1,4 +1,4 @@
-import { FaRegHeart, FaTrashAlt } from "react-icons/fa";
+import { FaRegHeart, FaTrashAlt, FaHeart } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { IdImage } from "../page/Main";
@@ -22,19 +22,38 @@ export default function PostBox({
   layoutnumber: number;
 }) {
   const [identify, setIdentify] = useState<boolean>();
+  const [token, setToken] = useState<boolean>(false);
+  const [like, setLike] = useState<boolean>(false);
   const nav = useNavigate();
   const queryClient = useQueryClient();
   const tokenUse = useRecoilValue(tokenState);
-  const ReviseButtonClick = () => {
-    nav("/revise");
-  };
-  const nowTime = moment().format("YYYYMMDD HH:mm:ss");
+
   const onDelete = () => {
     deleteUserdata.mutate(boardId);
   };
 
+  const ReviseButtonClick = () => {
+    nav("/revise", { state: { board: board } });
+  };
+  const onLike = () => {
+    likeUserdata.mutate(boardId);
+    setLike(!like);
+  };
+  const nologin = () => {
+    alert("로그인을 이용하세요!");
+  };
+
   const deleteUserdata = useMutation(
     (boardId: number) => boardApi.deleteApi(boardId),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("board_list");
+      },
+    }
+  );
+
+  const likeUserdata = useMutation(
+    (boardId: number) => boardApi.likeApi(boardId),
     {
       onSuccess: () => {
         queryClient.invalidateQueries("board_list");
@@ -48,6 +67,13 @@ export default function PostBox({
       setIdentify(userid == board.userEmail);
     }
   }, [tokenUse]);
+  // console.log(board.likes);
+
+  useEffect(() => {
+    if (jwtUtils.isAuth(tokenUse)) {
+      setToken(true);
+    } else setToken(false);
+  }, [tokenUse]);
 
   return (
     <PostContainer>
@@ -57,7 +83,7 @@ export default function PostBox({
           <div>{board.userNickname}</div>
         </UpperPostLeft>
         <UpperPostRight>
-          <div>{board.createdAt}</div>
+          <div>{moment(board.createdAt).fromNow()}</div>
           {identify && (
             <ReviseButton onClick={ReviseButtonClick}>수정</ReviseButton>
           )}
@@ -101,7 +127,21 @@ export default function PostBox({
 
       <BottomMenu>
         <LikeCount>좋아요 {board.likes.length}</LikeCount>
-        <FaRegHeart size="30px" color="#eb4b58" />
+        {like ? (
+          <FaHeart
+            color="red"
+            size="30px"
+            onClick={token ? onLike : nologin}
+            cursor="pointer"
+          />
+        ) : (
+          <FaRegHeart
+            color="red"
+            size="30px"
+            onClick={onLike}
+            cursor="pointer"
+          />
+        )}
       </BottomMenu>
     </PostContainer>
   );
@@ -178,10 +218,15 @@ export const BottomMenu = styled.div`
   height: 40px;
   justify-content: space-between;
 `;
-export const LikeCount = styled.div``;
+export const LikeCount = styled.div`
+  font-weight: bold;
+  font-size: 25px;
+`;
 
 export const ImageSee = styled.img`
   width: 300px;
   height: 300px;
   border-radius: 10px;
 `;
+
+export const Heart = styled.img``;

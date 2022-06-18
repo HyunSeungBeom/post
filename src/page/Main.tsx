@@ -3,14 +3,13 @@ import { FaPlusCircle, FaRegHeart } from "react-icons/fa";
 import React, { Component, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import PostBox from "../components/PostBox";
-import axios from "axios";
+
 import { useQuery } from "react-query";
 import { boardApi } from "../Api/callApi";
 import { IBoaderList } from "../Types/Interface";
 import { jwtUtils } from "../utils/JwtUtils";
 import { useRecoilValue } from "recoil";
 import { tokenState } from "../recoil/store";
-import { ToastContainer, toast } from "react-toastify";
 
 export function Main() {
   const postbox_query = useQuery(["board_list"], () => boardApi.watchApi(), {

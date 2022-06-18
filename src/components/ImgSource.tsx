@@ -13,10 +13,21 @@ export function ImgSource({
   useEffect(() => {
     if (image && image.length > 0) {
       const file = image[0];
+      console.log(file);
       setImagePreview(URL.createObjectURL(file));
       set(file);
     }
   }, [image]);
+
+  // function aaa(bbb :any){
+  //   console.log(bbb)
+
+  // }
+  // const aaaa = (ccc:string) => {
+  //   console.log(ccc)
+  // }
+  // aaa("text")
+  // aaaa("text")
 
   return (
     <div style={{ marginTop: "10px" }}>
