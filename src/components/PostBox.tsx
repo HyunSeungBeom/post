@@ -67,7 +67,7 @@ export default function PostBox({
       setIdentify(userid == board.userEmail);
     }
   }, [tokenUse]);
-  // console.log(board.likes);
+  console.log(board.likes);
 
   useEffect(() => {
     if (jwtUtils.isAuth(tokenUse)) {
