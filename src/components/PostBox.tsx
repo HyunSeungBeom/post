@@ -37,7 +37,6 @@ export default function PostBox({
   };
   const onLike = () => {
     likeUserdata.mutate(boardId);
-    setLike(!like);
   };
   const nologin = () => {
     alert("로그인을 이용하세요!");
@@ -57,6 +56,7 @@ export default function PostBox({
     {
       onSuccess: () => {
         queryClient.invalidateQueries("board_list");
+        setLike(!like);
       },
     }
   );
@@ -127,6 +127,7 @@ export default function PostBox({
 
       <BottomMenu>
         <LikeCount>좋아요 {board.likes.length}</LikeCount>
+
         {like ? (
           <FaHeart
             color="red"
@@ -138,7 +139,7 @@ export default function PostBox({
           <FaRegHeart
             color="red"
             size="30px"
-            onClick={onLike}
+            onClick={token ? onLike : nologin}
             cursor="pointer"
           />
         )}
@@ -217,6 +218,7 @@ export const BottomMenu = styled.div`
   width: 100%;
   height: 40px;
   justify-content: space-between;
+  margin-top: 30px;
 `;
 export const LikeCount = styled.div`
   font-weight: bold;
