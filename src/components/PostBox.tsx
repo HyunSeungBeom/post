@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { IdImage } from "../page/Main";
 import React, { useEffect, useState } from "react";
-import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 import { boardApi } from "../Api/callApi";
 import { IBoaderList } from "../Types/Interface";
 import { useRecoilValue } from "recoil";
@@ -69,7 +69,8 @@ export default function PostBox({
       const isUserid = board.likes.filter((id) => {
         return id.user_email === userid;
       });
-      setLike(isUserid.length > 0 ? true : false);
+      setLike(isUserid && isUserid.length > 0 ? true : false);
+      //내자신이 있으면 true 없으면 false
     } else setToken(false);
   }, [tokenUse]);
   console.log(board.likes);

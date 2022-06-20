@@ -4,12 +4,13 @@ import styled from "styled-components";
 import React, { useState } from "react";
 import { ImgSource } from "../components/ImgSource";
 import { boardApi } from "../Api/callApi";
-import { IBoaderList } from "../Types/Interface";
 import { useMutation } from "react-query";
 import RadioButton from "../components/RadioButton";
+import { IBoaderList } from "../Types/Interface";
 
 export function Revise() {
-  const { state }: { state: any } = useLocation();
+  const location = useLocation();
+  const state = location.state as { board: IBoaderList };
   const [selectedButton, setSelectedButton] = useState<number>(
     state.board.layout
   );

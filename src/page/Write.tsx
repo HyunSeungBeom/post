@@ -1,15 +1,11 @@
 import styled from "styled-components";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
-import { FieldValues, useForm } from "react-hook-form";
+
 import RadioButton from "../components/RadioButton";
 import { ImgSource } from "../components/ImgSource";
 import { useMutation } from "react-query";
 import { boardApi } from "../Api/callApi";
-import { tokenState } from "../recoil/store";
-import { useRecoilState, useRecoilValue } from "recoil";
-import { jwtUtils } from "../utils/JwtUtils";
 
 export function Write() {
   const [selectedButton, setSelectedButton] = useState<number>();
