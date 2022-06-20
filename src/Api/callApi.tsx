@@ -1,9 +1,7 @@
 import axios from "axios";
-import React from "react";
+
 import { FieldValues } from "react-hook-form";
-import { useRecoilValue } from "recoil";
-import { tokenState } from "../recoil/store";
-import { jwtUtils } from "../utils/JwtUtils";
+
 import setupInterceptorsTo from "./Interceptiors";
 
 const baseApi = axios.create({

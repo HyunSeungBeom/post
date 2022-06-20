@@ -2,7 +2,7 @@ import { FaRegHeart, FaTrashAlt, FaHeart } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { IdImage } from "../page/Main";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useMutation, useQueryClient } from "react-query";
 import { boardApi } from "../Api/callApi";
 import { IBoaderList } from "../Types/Interface";

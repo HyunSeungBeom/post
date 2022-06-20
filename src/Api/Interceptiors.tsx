@@ -4,7 +4,6 @@ import {
   AxiosRequestConfig,
   AxiosResponse,
 } from "axios";
-import jwtDecode from "jwt-decode";
 
 const onRequest = (config: AxiosRequestConfig): AxiosRequestConfig => {
   // console.info(`[request] [${JSON.stringify(config)}]`);

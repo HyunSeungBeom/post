@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
 
 const RadioButton = ({
@@ -12,9 +12,11 @@ const RadioButton = ({
   select?: number;
   layoutnumber?: number;
 }) => {
-  const radioHandler = (event: any) => {
+  const radioHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     // console.log(event.target.value);
-    set(event.target.value);
+    if (event.target.value) {
+      set(Number(event.target.value));
+    }
   };
 
   console.log(layoutnumber, Number(select));

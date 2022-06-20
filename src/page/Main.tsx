@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import { FaPlusCircle, FaRegHeart } from "react-icons/fa";
-import React, { Component, useEffect, useState } from "react";
+import { FaPlusCircle } from "react-icons/fa";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import PostBox from "../components/PostBox";
 

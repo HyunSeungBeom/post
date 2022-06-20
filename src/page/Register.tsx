@@ -1,9 +1,9 @@
-import { useCallback, useRef, useState } from "react";
+import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import React, { Component } from "react";
+
 import { FieldValues, useForm } from "react-hook-form";
-import { QueryClient, useMutation, useQueryClient } from "react-query";
+import { useMutation } from "react-query";
 import { registerApi } from "../Api/callApi";
 import { tokenState } from "../recoil/store";
 

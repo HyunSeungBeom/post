@@ -1,16 +1,9 @@
-import React, { Component } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
 import { Main } from "./page/Main";
 import { Login } from "./page/Login";
 import { Register } from "./page/Register";
-import {
-  RecoilRoot,
-  atom,
-  selector,
-  useRecoilState,
-  useRecoilValue,
-} from "recoil";
+import { RecoilRoot } from "recoil";
 import { createGlobalStyle } from "styled-components";
 import { Write } from "./page/Write";
 import { Revise } from "./page/Revise";

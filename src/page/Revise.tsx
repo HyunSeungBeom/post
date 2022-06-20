@@ -1,7 +1,7 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
-import React, { useState } from "react";
+import { useState } from "react";
 import { ImgSource } from "../components/ImgSource";
 import { boardApi } from "../Api/callApi";
 import { useMutation } from "react-query";
