@@ -37,6 +37,7 @@ export default function PostBox({
   };
   const onLike = () => {
     likeUserdata.mutate(boardId);
+    setLike(!like);
   };
   const nologin = () => {
     alert("로그인을 이용하세요!");
@@ -56,7 +57,6 @@ export default function PostBox({
     {
       onSuccess: () => {
         queryClient.invalidateQueries("board_list");
-        setLike(!like);
       },
     }
   );
@@ -65,15 +65,14 @@ export default function PostBox({
     if (jwtUtils.isAuth(tokenUse)) {
       const userid = jwtUtils.getId(tokenUse);
       setIdentify(userid == board.userEmail);
-    }
-  }, [tokenUse]);
-  console.log(board.likes);
-
-  useEffect(() => {
-    if (jwtUtils.isAuth(tokenUse)) {
       setToken(true);
+      const isUserid = board.likes.filter((id) => {
+        return id.user_email === userid;
+      });
+      setLike(isUserid.length > 0 ? true : false);
     } else setToken(false);
   }, [tokenUse]);
+  console.log(board.likes);
 
   return (
     <PostContainer>

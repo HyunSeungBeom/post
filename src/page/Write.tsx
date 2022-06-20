@@ -14,7 +14,7 @@ import { jwtUtils } from "../utils/JwtUtils";
 export function Write() {
   const [selectedButton, setSelectedButton] = useState<number>();
   const [content, setContent] = useState<string>("");
-  const [imagePreview, setImagePreview] = useState<File>();
+  const [imagePreview, setImagePreview] = useState<File | null>(null);
   const nav = useNavigate();
 
   const onSubmit = () => {
@@ -48,6 +48,11 @@ export function Write() {
       },
     }
   );
+
+  // const aaaa = (data) => {
+  //   boardApi.writeApi(data)
+  // }
+  // aaaa()
 
   const HomeClick = () => {
     nav("/");

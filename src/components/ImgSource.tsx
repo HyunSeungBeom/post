@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 export function ImgSource({
   set,
 }: {
-  set: React.Dispatch<React.SetStateAction<File | undefined>>;
+  set: React.Dispatch<React.SetStateAction<File | null>>;
 }) {
   const [imagePreview, setImagePreview] = useState("");
   const { watch, register } = useForm();

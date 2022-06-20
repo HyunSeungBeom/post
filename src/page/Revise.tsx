@@ -13,7 +13,7 @@ export function Revise() {
   const [selectedButton, setSelectedButton] = useState<number>(
     state.board.layout
   );
-  const [imagePreview, setImagePreview] = useState<File>();
+  const [imagePreview, setImagePreview] = useState<File | null>(null);
   const [content2, setContent2] = useState<string>(state.board.content);
 
   console.log(state);
